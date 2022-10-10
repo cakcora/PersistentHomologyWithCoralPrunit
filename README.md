@@ -49,7 +49,7 @@ Mimics the filtration in Persistent Homology and returns a new graph that is com
 ```python
 
 def createFiltrationGraph(graph,threshold):
-    remove = [node for node,degree in dict(graph.degree()).items() if degree >threshold]
+    remove = [node for node,degree in dict(graph.degree()).items() if degree <threshold]
     g2 = graph.copy()
     g2.remove_nodes_from(remove)
     return g2
@@ -119,8 +119,9 @@ print("Prunit filtration range: ",minD,maxD)
 # filtration starts
 t5= time.process_time()
 totalSimplexCountPrunIt=0
-for i in range(minD, 1+maxD, step):
+for i in range(maxD, minD-1, -step):
     g2 = createFiltrationGraph(graph,i)
+    print(i, "th filtration graph nodes and edges:",g2.number_of_nodes(), g2.number_of_edges())
     simplex0 = g2.number_of_nodes()
     simplex1 = g2.number_of_edges()
     simplex2 = sum(nx.triangles(g2).values())
@@ -129,7 +130,12 @@ t6 = time.process_time()
 ```
 
 Graph nodes and edges: 695 197
-Prunit filtration range:  0 4
+Prunit filtration range:  4 0
+4 th filtration graph nodes and edges: 5 1
+3 th filtration graph nodes and edges: 28 6
+2 th filtration graph nodes and edges: 127 101
+1 th filtration graph nodes and edges: 234 197
+0 th filtration graph nodes and edges: 695 197
     
 
 
@@ -144,7 +150,7 @@ print("\t Prunit will create simplicial complexes with :", totalSimplexCountPrun
 Time costs excluding Persistent Homology computations on simplicial complexes:
 	 Prunit takes: 0.03125 secs
 Persistent Homology cost estimates (number of simplices)^3
-	 Prunit will create simplicial complexes with : 3586  simplices (<=3)
+	 Prunit will create simplicial complexes with : 1592  simplices (<=3)
 
 
 
