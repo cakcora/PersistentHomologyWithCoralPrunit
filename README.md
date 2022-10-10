@@ -88,7 +88,7 @@ print("Original graph:",graph.number_of_nodes(), graph.number_of_edges())
 
 ```
 
-Step size: 12
+Step size: 1
 Original graph: 1000 502
     
 PrunIt eliminated dominated vertices in the very beginning, hence it does not need to check domination at every filtration step. 
