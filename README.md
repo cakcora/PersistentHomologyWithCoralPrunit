@@ -4,7 +4,7 @@ We develop two new, remarkably simple but effective algorithms to compute the ex
 
 This notebook shows the PrunIt in action. We find the dominated vertices and delete them from the graph. Our activation function is node degree, and we are using superlevel filtration. Prunit assumes that the dominating vertices are activated before the dominated vertices. Degree in superlevel filtration satisfies this condition. 
 
-Our experiments were coded in R, but R is not optimized for loops. We are giving the Python code below, which is easier to read and follow. Sub/super level filtration is not implemented in python yet, but you can call this linked code snippet (to be linked) to send a graph to R and use the TDA library to get its persistence diagram.
+Our experiments were coded in R, which is not optimized for loops. We are giving the Python code below, which is easier to read and follow. Sub/super level filtration is not implemented in python yet, but you can call this linked code snippet (to be linked) to send a graph to R and use the TDA library to get its persistence diagram.
 
 ```python
 import networkx as nx
@@ -95,10 +95,10 @@ PrunIt eliminated dominated vertices in the very beginning, hence it does not ne
 
 Note that eliminating vertices at the beginning may shorten the filtration interval as well, because some vertices are eliminated and the degrees of the remaining vertices decrease. As a result the max degree changes.
 
-
+PrunIT - finding and eliminating dominated vertices
 ```python
 
-######PrunIT - first step: finding and eliminating dominated vertices##########
+
 t3 = time.process_time()
 dominated_vertices = find_dominated_vertices(graph)
 graph.remove_nodes_from((dominated_vertices))
@@ -109,48 +109,4 @@ print(len(dominated_vertices)," dominated vertices")
 305  dominated vertices
     
 
-PrunIT - second step: using the updated graph in filtration.
-```python
-print("Graph nodes and edges:",graph.number_of_nodes(), graph.number_of_edges())
-d = [val for (node, val) in graph.degree()]
-maxD = max(d)
-minD = min(d)
-print("Prunit filtration range: ",minD,maxD)
-# filtration starts
-t5= time.process_time()
-totalSimplexCountPrunIt=0
-for i in range(maxD, minD-1, -step):
-    g2 = createFiltrationGraph(graph,i)
-    print(i, "th filtration graph nodes and edges:",g2.number_of_nodes(), g2.number_of_edges())
-    simplex0 = g2.number_of_nodes()
-    simplex1 = g2.number_of_edges()
-    simplex2 = sum(nx.triangles(g2).values())
-    totalSimplexCountPrunIt+=(simplex0+simplex1+simplex2)^3
-t6 = time.process_time()
-```
-
-Graph nodes and edges: 695 197
-Prunit filtration range:  4 0
-4 th filtration graph nodes and edges: 5 1
-3 th filtration graph nodes and edges: 28 6
-2 th filtration graph nodes and edges: 127 101
-1 th filtration graph nodes and edges: 234 197
-0 th filtration graph nodes and edges: 695 197
-    
-
-
-```python
-print("Time costs excluding Persistent Homology computations on simplicial complexes:")
-print("\t Prunit takes:", (t4-t3)+(t6-t5),"secs")
-
-print("Persistent Homology cost estimates (number of simplices)^3")
-print("\t Prunit will create simplicial complexes with :", totalSimplexCountPrunIt," simplices (<=3)")
-```
-
-Time costs excluding Persistent Homology computations on simplicial complexes:
-	 Prunit takes: 0.03125 secs
-Persistent Homology cost estimates (number of simplices)^3
-	 Prunit will create simplicial complexes with : 1592  simplices (<=3)
-
-
-
+ 
