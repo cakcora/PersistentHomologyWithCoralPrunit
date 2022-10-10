@@ -82,7 +82,7 @@ if (maxD-minD)>100:
 else:
     step =1
 
-step=12    
+ 
 print('Step size:', step)    
 print("Original graph:",graph.number_of_nodes(), graph.number_of_edges())
 
@@ -142,9 +142,9 @@ print("\t Prunit will create simplicial complexes with :", totalSimplexCountPrun
 ```
 
 Time costs excluding Persistent Homology computations on simplicial complexes:
-	 Prunit takes: 0.015625 secs
+	 Prunit takes: 0.03125 secs
 Persistent Homology cost estimates (number of simplices)^3
-	 Prunit will create simplicial complexes with : 462  simplices (<=3)
+	 Prunit will create simplicial complexes with : 3586  simplices (<=3)
 
 
 
